@@ -1,0 +1,126 @@
+PROJECT REPORT: Advanced Time Series Forecasting Using LSTM and Attention Mechanisms
+1. Introduction
+
+Time series forecasting plays a critical role in financial markets, economic planning, and data-driven decision making. Traditional statistical models such as ARIMA often struggle to capture nonlinear dependencies in multivariate time series. Deep learning architectures, especially recurrent neural networks such as Long Short-Term Memory (LSTM) models, have shown strong capability in modeling complex temporal patterns. This project explores two deep learning approaches for forecasting financial time series: a baseline LSTM model and an Attention-based LSTM model. The primary objective is to determine whether incorporating an attention mechanism improves predictive accuracy and interpretability.
+
+2. Dataset Description
+
+The dataset used in this project is the S and P 500 Index (ticker symbol GSPC), obtained from Yahoo Finance using the yfinance API. Five numerical features were included: Open, High, Low, Close, and Volume. The data covered a multi-year duration and provided sufficient temporal resolution for deep learning.
+
+All missing values were cleaned, and numeric features were scaled using MinMaxScaler. A sliding-window approach was used to generate sequences. A window size of 30 timesteps was selected for baseline experiments, with tuning performed later.
+
+The processed dataset was stored in multivariate_timeseries.csv, and windowed arrays were saved as X.npy and y.npy.
+
+3. Data Preprocessing
+
+Data preprocessing included several key steps:
+
+Loading raw time series data into a pandas DataFrame
+
+Handling missing values
+
+Scaling features to the range zero to one
+
+Creating input sequences using a lookback window
+
+Splitting the data chronologically into training, validation, and test sets
+
+Sequence generation transformed the data into samples shaped as (samples, timesteps, features), ensuring compatibility with LSTM and attention-based models.
+
+4. Baseline LSTM Model
+
+The baseline model implemented a single LSTM layer followed by a Dense output layer. The model architecture included:
+
+One LSTM layer with 64 units
+
+Dropout for regularization
+
+A final Dense layer predicting the next closing price
+
+The model was trained using:
+
+Loss function: Mean Squared Error
+
+Optimizer: Adam
+
+Batch size: 32
+
+Epochs: 20
+
+The model captured short-term temporal dependencies effectively but had difficulty with long-range patterns, motivating the use of an attention mechanism.
+
+5. Attention-Based LSTM Model
+
+The attention model extends the baseline LSTM by introducing a custom attention layer. The LSTM was configured to return sequences, enabling the attention layer to assign weights to each timestep. This helps the model focus on the most relevant parts of the input window.
+
+Key architecture components:
+
+LSTM layer with return_sequences set to True
+
+Custom attention mechanism computing alignment scores
+
+Weighted context vector fed into a Dense layer
+
+This architecture improves interpretability, as attention weights indicate which time periods influence the prediction most.
+
+6. Hyperparameter Tuning
+
+Hyperparameter tuning was conducted using random search. The following parameters were tuned:
+
+Number of LSTM units (32, 64, 128)
+
+Learning rate (0.0005, 0.001, 0.005)
+
+Sequence length (30, 40, 50 timesteps)
+
+The best configuration found during tuning:
+
+LSTM units: 128
+
+Learning rate: 0.001
+
+Sequence length: 40
+
+The tuned model was retrained and evaluated separately, and its metrics were included in the comparison table.
+
+7. Evaluation Metrics
+
+Models were evaluated using standard forecasting metrics:
+
+Root Mean Squared Error (RMSE)
+
+Mean Absolute Error (MAE)
+
+Predictions were generated for the held-out test set. Forecast plots were saved to the results directory. Attention heatmaps were also generated for interpretability.
+
+Metrics were saved to metrics_comparison.csv.
+
+8. Visualizations
+
+The following visual outputs were produced:
+
+Forecast Plots
+
+Actual vs predicted closing prices for each model
+
+Training Curves
+
+Loss vs epochs for baseline and attention models
+
+Attention Heatmaps
+
+Visual representation of attention weights across timesteps
+
+All outputs were saved in the results directory.
+
+9. Discussion
+
+Across evaluations, the attention-based LSTM demonstrated improved performance compared to the baseline LSTM. This indicates that the model benefits from focusing on the most relevant timesteps during forecasting. The tuned model exhibited further improvement, highlighting the importance of hyperparameter optimization.
+
+The attention heatmaps provided valuable insights into the temporal dependencies learned by the model. These visualizations revealed which historical periods were most influential, supporting interpretability and model trust.
+
+10. Conclusion
+
+This project successfully implemented advanced time series forecasting using deep learning techniques. The baseline LSTM and attention-based LSTM models were compared, and attention was shown to enhance predictive accuracy and interpretability. Hyperparameter tuning led to further performance gains. The final submission includes all required code files, metrics, visualizations, and documentation, satisfying the project requirements.
+
+Future work may extend this project by exploring Transformer architectures, multistep forecasting, or alternative financial datasets.
