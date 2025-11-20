@@ -1,17 +1,20 @@
-📘 Time Series Forecasting Using LSTM and Attention (TensorFlow)
+Project Title
 
-This project focuses on multivariate time series forecasting using the S&P 500 Index (GSPC) dataset.
-Two models are built and compared:
+Time Series Forecasting Using LSTM and Attention Mechanisms
 
-Baseline LSTM Model
+Overview
 
-Attention-based LSTM Model
+This project implements multivariate time series forecasting using deep learning. Two primary models are developed and evaluated:
 
-Both models are trained, evaluated, and compared using RMSE and MAE metrics.
-The project also includes hyperparameter tuning, attention visualization, and a fully reproducible pipeline.
+Baseline LSTM model
 
+Attention-based LSTM model
 
-📁 Project Structure
+Both models are trained on historical S&P 500 data and evaluated using RMSE and MAE. Hyperparameter tuning is also performed to identify optimal model settings.
+
+The goal is to determine whether incorporating an attention mechanism improves forecast accuracy and interpretability.
+
+Project Structure
 project/
 │
 ├── data_acquisition.py
@@ -22,76 +25,101 @@ project/
 ├── tune_hyperparams.py
 ├── visualize.py
 │
-├── multivariate_timeseries.csv        # Generated after running data_acquisition.py
-├── X.npy, y.npy                       # Generated after running preprocess.py
-├── scaler.pkl                         # Feature scaler
+├── multivariate_timeseries.csv
+├── X.npy
+├── y.npy
+├── scaler.pkl
 │
 ├── results/
-│      ├── baseline_forecast.png
-│      ├── attention_forecast.png
-│      ├── attention_attention_heatmap.png
-│      ├── baseline_forecast.png
-│      ├── training_curve.png
-│      └── (others)
+│      baseline_forecast.png
+│      attention_forecast.png
+│      attention_heatmap.png
+│      training_curve.png
 │
 ├── metrics_comparison.csv
 ├── tuning_results.csv
 │
 └── README.md
 
-🧠 Project Objective
+Requirements
 
-To forecast future closing prices of S&P 500 using deep learning models and evaluate if adding an attention mechanism improves predictive performance.
+Install dependencies using:
 
-📥 1. Data Acquisition
+pip install numpy pandas matplotlib scikit-learn tensorflow yfinance
 
-Run:
+How to Run the Project
+Step 1: Acquire Data
 python data_acquisition.py
+
+
+This downloads S&P 500 data and saves it as multivariate_timeseries.csv.
+If internet is not available, synthetic data is generated.
+
+Step 2: Preprocess Data
+python preprocess.py
+
+
+This generates X.npy, y.npy, and scaler.pkl.
+
+Step 3: Train and Evaluate Models
+python train_and_evaluate_tf.py
 
 
 This script:
 
-Downloads S&P 500 index data using yfinance
+Trains the baseline LSTM
 
-If internet is unavailable, generates a synthetic placeholder dataset
+Trains the attention-based LSTM
 
-Saves data as multivariate_timeseries.csv
+Evaluates models using RMSE and MAE
 
-🛠️ 2. Preprocessing
+Saves metrics_comparison.csv
 
-python preprocess.py
+Generates forecast plots
 
-This will:
+Generates attention heatmaps
 
-Load the data
+Step 4: Hyperparameter Tuning (Optional)
+python tune_hyperparams.py
 
-Remove missing values
 
-Scale numeric features using MinMaxScaler
+This performs random search over selected hyperparameters and saves tuning_results.csv.
 
-Create sequence windows (default 30 timesteps)
+Outputs
+Generated Files
 
-Save processed arrays X.npy and y.npy
+multivariate_timeseries.csv
 
-🤖 3. Models Included
-A. Baseline LSTM Model
+X.npy
 
-Single LSTM layer
+y.npy
 
-Dropout
+scaler.pkl
 
-Dense output
+Evaluation Results
 
-B. Attention-Based LSTM Model
+metrics_comparison.csv
 
-LSTM with return_sequences
+tuning_results.csv
 
-Custom Attention layer
+Visualizations
 
-Output + attention weights
+Saved in the results directory:
 
-Both models use Mean Squared Error (MSE) as the loss function.
+baseline_forecast.png
 
-🏋️ 4. Training & Evaluation
+attention_forecast.png
 
-Run:
+attention_heatmap.png
+
+training_curve.png
+
+Model Summary
+Baseline LSTM
+
+A single-layer LSTM model that establishes base performance.
+
+Attention-Based LSTM
+
+An extended version of the LSTM model with an attention mechanism to highlight important timesteps.
+Improves interpretability and often performance.
